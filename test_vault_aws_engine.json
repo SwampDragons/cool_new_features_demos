@@ -1,0 +1,37 @@
+{
+    "builders": [
+        {
+            "ami_name": "packer-testing_null",
+            "force_deregister": true,
+            "force_delete_snapshot": true,
+            "instance_type": "t2.micro",
+            "source_ami_filter": {
+              "filters": {
+              "virtualization-type": "hvm",
+              "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+              "root-device-type": "ebs"
+              },
+              "owners": ["099720109477"],
+              "most_recent": true
+            },
+            "ssh_username": "ubuntu",
+            "type": "amazon-ebs",
+            "vault_aws_engine": {
+              "name": "my-role"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+          "type": "shell",
+          "inline": ["echo hi"]
+        }
+    ],
+    "post-processors": [
+      {
+        "type": "manifest",
+        "output": "manifest.json",
+        "strip_path": true
+      }
+  ]
+}

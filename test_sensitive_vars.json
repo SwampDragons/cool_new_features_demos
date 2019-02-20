@@ -1,0 +1,21 @@
+{
+	"variables": {
+		"super_secret_password": "ilovewaffles"
+	},
+	"sensitive-variables": [
+		"super_secret_password"
+	],
+	"builders": [
+		{
+			"type": "null",
+			"communicator": "none"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell-local",
+			"environment_vars": ["MYPASS={{ user `super_secret_password`}}"],
+			"inline": ["echo $MYPASS > /dev/null"]
+		}
+	]
+}

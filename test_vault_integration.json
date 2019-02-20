@@ -1,0 +1,18 @@
+{
+    "builders": [
+      {
+        "type":         "null",
+        "communicator": "none"
+      }
+    ],
+    "provisioners": [
+      {
+          "type": "shell-local",
+          "environment_vars": ["MYSECRET={{ user `VAULT_SECRET`}}"],
+          "command": "echo MYSECRET is $MYSECRET"
+      }
+    ],
+    "variables": {
+        "VAULT_SECRET": "{{ vault `/secret/data/hello` `foo`}}"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "builders": [
+      {
+        "type":         "null",
+        "communicator": "none"
+      }
+    ],
+    "provisioners": [
+      {
+          "type": "shell-local",
+          "environment_vars": ["VERS={{ user `service_version`}}"],
+          "command": "echo http://download.example.com/version/$VERS"
+      }
+    ],
+    "variables": {
+        "service_version": "{{ consul_key `myservice/version`}}"
+    }
+}

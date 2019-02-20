@@ -1,0 +1,23 @@
+{
+  "builders": [
+    {
+      "type": "null",
+      "communicator": "none"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell-local",
+      "inline": "echo hi"
+    },
+    {
+      "type": "breakpoint",
+      "disable": true,
+      "note": "this is a breakpoint"
+    },
+    {
+      "type": "shell-local",
+      "inline": "echo hi 2"
+    }
+  ]
+}
