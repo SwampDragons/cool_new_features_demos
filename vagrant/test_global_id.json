@@ -1,0 +1,17 @@
+{
+	"builders": [
+		{
+			"type": "vagrant",
+	        "ssh_port": 22,
+	        "ssh_username": "vagrant",
+	        "communicator": "ssh",
+	        "global_id": "a3559ec"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": "echo hi"
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"builders": [
+		{
+			"type": "vagrant",
+	        "ssh_port": 22,
+	        "ssh_username": "vagrant",
+	        "communicator": "ssh",
+	        "source_path": "hashicorp/precise64",
+	        "add_force": true,
+	        "provider": "virtualbox",
+	        "output_dir": "precisebox"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": ["echo heyoooo"]
+		}
+	]
+}

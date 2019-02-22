@@ -1,0 +1,27 @@
+{
+	"builders": [
+		{
+			"type": "vagrant",
+	        "ssh_port": 22,
+	        "ssh_username": "vagrant",
+	        "communicator": "ssh",
+	        "source_path": "testy-packer",
+	        "skip_add": true,
+	        "provider": "virtualbox",
+	        "output_dir": "word",
+	        "teardown_method": "halt"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": "echo 'vagrant'|sudo -S shutdown -r -P now",
+			"expect_disconnect": true
+		},
+		{
+			"type": "shell",
+			"inline": ["echo heyoooo"]
+		}
+
+	]
+}

@@ -1,0 +1,30 @@
+{
+	"builders": [
+		{
+			"type": "vagrant",
+	        "ssh_port": 22,
+	        "ssh_username": "vagrant",
+	        "communicator": "ssh",
+	        "source_path": "./precisebox/package.box",
+	        "add_force": true,
+	        "box_name": "testy-packer",
+	        "provider": "virtualbox",
+	        "output_dir": "testydir",
+	        "checksum": "40500cfc97a57437e262168bf956b3c236492deb4ebccb35b2305b3fc60bdb6d",
+	        "checksum_type": "sha256",
+	        "teardown_method": "halt"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": "echo hi"
+		}
+	],
+	"post-processors": [
+		{
+			"type": "shell-local",
+			"inline": ["pwd"]
+		}
+	]
+}
