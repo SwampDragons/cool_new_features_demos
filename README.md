@@ -243,3 +243,85 @@ Example:
 
 > 2019/08/28 15:32:35 packer: 2019/08/28 15:32:35 [INFO] (shell-local): starting local command: /bin/sh -c MYPASS='\<sensitive\>' PACKER_BUILDER_TYPE='null' PACKER_BUILD_NAME='null'  /var/folders/8t/0yb5q0_x6mb2jldqq_vjn3lr0000gn/T/packer-shell885086069
 >2019/08/28 15:32:35 packer: 2019/08/28 15:32:35 [INFO] (shell-local communicator): Executing local shell command [/bin/sh -c MYPASS='\<sensitive\>' PACKER_BUILDER_TYPE='null' PACKER_BUILD_NAME='null'  /var/folders/8t/0yb5q0_x6mb2jldqq_vjn3lr0000gn/T/packer-shell885086069]
+
+## Skipping post-processors
+
+We've been able to skip provisioners using "except" for a long time; we have
+recently added the ability to skip post-processors as well.
+
+The Packer template test_except_for_postprocesors.json contains two
+post-processors: a manifest post-processor, and a shell-local post-processor.
+
+The shell-local one, if it runs, will create a file called "skipped.txt".
+However, the post-processor has been tagged with `"except": ["null 1"]`, and this
+step will therefore be skipped.
+
+The manifest one is tagged with the opposite: `"only": ["null 2"]` -- you'd think that
+this means it will be skipped, but Packer ignores "only" flags for
+post-processors in order to make it easier to reason about what will be
+generated inside of a post-processor chain.
+
+Inside the project root, run
+
+`packer build -only="null 2" test_except_for_postprocesors.json`
+
+When it has completed, you'll notice that the build has created a
+packer-manifest.json file, but not a "skipped.txt" file.
+
+## Interpolating variables within the "variables" template section
+
+Until the beginning of this year, it wasn't possible to define a variable that
+we interpolate from another variable defined in the "user" section of the
+Packer template, but now you can do so.
+
+`packer build test_user_var_interpolation.json`
+
+You'll see the output
+
+>    null: oranges-bananas-apples
+
+Which is a variable interpolated from two other variables.
+
+Open up the test_user_var_interpolation.json file, and delete the line
+containing `"foo": "apples",` and then rerun.
+
+`packer build test_user_var_interpolation.json`
+
+The build will fail with
+
+> Error initializing core: Failed to interpolate "bar": "bananas-{{user `foo`}}"; error: template: root:1:10: executing "root" at <user `foo`>: error calling user: Error: variable not set: foo: Please make sure that the variable you're referencing has been defined; Packer treats all variables used to interpolate other user varaibles as required.
+
+Rather than interpolating based off an empty variable. However, if you run with
+
+`packer build -var foo="peaches" test_user_var_interpolation.json`
+
+The build will complete successfully with the line
+
+>null: oranges-bananas-peaches
+
+## Customizing allowed exit codes for shell and windows-shell provisioners
+
+Note: These examples use real AWS resources which may translate into you
+spending real money. It should be cheap, but don't get mad at us if it isn't.
+
+The examples here only work if you have your `AWS_ACCESS_KEY_ID` and
+`AWS_SECRET_ACCESS_KEY` environment variables set.
+
+If you look inside the `test_windows_shell_exit_codes.json` and the
+`test_custom_exit_codes_shell.json` packer templates, you'll see very simple
+shell and windows-shell scripts that exit with error code 2. These scripts will
+not fail the Packer builds, because the provisioners have added 2 to a list of
+allowed exit codes.
+
+The `valid_exit_codes` feature has not yet been implemented for the
+shell-local provisoner or post-processor.
+
+## Golang Template Engine Hacks
+
+The golang template engine is much more powerful than the handful of engines
+that we document on the Packer website. For example, did you know that you
+perform conditional logic inside of the template engine, potentially changing
+the file that a particular provisioner references based on a build name?
+
+Take a look at the inline script inside of `test_template_engine_hacks.json`
+for an example of this conditional logic.

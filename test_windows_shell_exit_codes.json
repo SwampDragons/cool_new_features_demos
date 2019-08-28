@@ -1,0 +1,39 @@
+{
+	"variables": {
+		"region": "us-east-1"
+	},
+	"builders": [
+		{
+			"name": "packer-windows-demo",
+			"type": "amazon-ebs",
+			"force_deregister": true,
+			"region": "{{ user `region` }}",
+			"instance_type": "t2.micro",
+			"source_ami_filter": {
+				"filters": {
+					"virtualization-type": "hvm",
+					"name": "*Windows_Server-2012*English-64Bit-Base*",
+					"root-device-type": "ebs"
+				},
+				"most_recent": true,
+				"owners": "amazon"
+			},
+			"ami_name": "packer-demo-{{timestamp}}",
+			"user_data_file": "./packer_bootstrap_win.txt",
+			"communicator": "winrm",
+			"winrm_username": "Administrator",
+			"winrm_password": "SuperS3cr3t!"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "windows-shell",
+			"inline": ["exit 2"],
+			"valid_exit_codes": [0, 2]
+		},
+		{
+			"type": "shell-local",
+			"inline": ["echo we wouldn't make it here if the above failed."]
+		}
+	]
+}

@@ -1,0 +1,35 @@
+{
+	"variables": {
+		"region": "us-east-1"
+	},
+	"builders": [
+		{
+			"ami_name": "packer-ubuntu",
+			"force_deregister": true,
+			"instance_type": "t2.micro",
+			"region": "{{ user `region` }}",
+			"source_ami_filter": {
+				"filters": {
+					"virtualization-type": "hvm",
+					"name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+					"root-device-type": "ebs"
+					},
+					"owners": ["099720109477"],
+					"most_recent": true
+				},
+			"ssh_username": "ubuntu",
+			"type": "amazon-ebs"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": ["exit 2"],
+			"valid_exit_codes": [0, 2]
+		},
+		{
+			"type": "shell-local",
+			"inline": ["echo we wouldnt make it here if the above failed."]
+		}
+	]
+}

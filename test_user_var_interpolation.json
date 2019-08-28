@@ -1,0 +1,17 @@
+{
+    "variables": {
+
+        "bar": "bananas-{{user `foo`}}",
+        "baz": "oranges-{{user `bar`}}"
+    },
+    "builders": [{
+        "type": "null",
+        "communicator": "none"
+    }],
+    "provisioners": [
+        {
+            "type": "shell-local",
+            "inline": ["echo {{ user `baz`}}"]
+        }
+    ]
+}

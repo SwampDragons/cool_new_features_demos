@@ -1,0 +1,19 @@
+{
+    "variables": {
+        "option_1": "foo",
+        "option_2": "bar"
+    },
+    "builders": [
+        {
+            "type": "null",
+            "name": "AWESOME-POSSUM",
+            "communicator": "none"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell-local",
+            "inline": "echo {{with split build_name \"-\" 0}}{{if eq . \"AWESOME\"}}{{ user `option_1` }}{{else}}{{user `option_2`}}{{ end }}{{end}}"
+        }
+    ]
+}

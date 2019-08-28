@@ -1,0 +1,25 @@
+{
+	"builders": [
+		{
+			"type": "null",
+			"name": "null 1",
+			"communicator": "none"
+		},
+		{
+			"type": "null",
+			"name": "null 2",
+			"communicator": "none"
+		}
+	],
+	"post-processors": [
+		{
+			"type": "shell-local",
+			"inline": ["echo this one was skipped > skipped.txt"],
+			"only": ["null 1"]
+		},
+		{
+			"type": "manifest",
+			"except": ["null 1"]
+		}
+	]
+}
