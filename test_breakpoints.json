@@ -12,7 +12,6 @@
     },
     {
       "type": "breakpoint",
-      "disable": true,
       "note": "this is a breakpoint"
     },
     {

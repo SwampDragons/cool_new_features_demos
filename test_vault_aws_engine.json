@@ -26,12 +26,5 @@
           "type": "shell",
           "inline": ["echo hi"]
         }
-    ],
-    "post-processors": [
-      {
-        "type": "manifest",
-        "output": "manifest.json",
-        "strip_path": true
-      }
-  ]
+    ]
 }
