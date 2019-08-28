@@ -231,7 +231,7 @@ packer build test_sensitive_vars.json
 
 You should see the line
 
-> null: MY PASSWORD IS <sensitive>
+> null: MY PASSWORD IS \<sensitive\>
 
 in your logs. Of equal importance, if you run with the Packer debug logs set:
 
@@ -241,5 +241,5 @@ You'll notice that the variable is also sanitized out of the verbose logging.
 
 Example:
 
-> 2019/08/28 15:32:35 packer: 2019/08/28 15:32:35 [INFO] (shell-local): starting local command: /bin/sh -c MYPASS='<sensitive>' PACKER_BUILDER_TYPE='null' PACKER_BUILD_NAME='null'  /var/folders/8t/0yb5q0_x6mb2jldqq_vjn3lr0000gn/T/packer-shell885086069
->2019/08/28 15:32:35 packer: 2019/08/28 15:32:35 [INFO] (shell-local communicator): Executing local shell command [/bin/sh -c MYPASS='<sensitive>' PACKER_BUILDER_TYPE='null' PACKER_BUILD_NAME='null'  /var/folders/8t/0yb5q0_x6mb2jldqq_vjn3lr0000gn/T/packer-shell885086069]
+> 2019/08/28 15:32:35 packer: 2019/08/28 15:32:35 [INFO] (shell-local): starting local command: /bin/sh -c MYPASS='\<sensitive\>' PACKER_BUILDER_TYPE='null' PACKER_BUILD_NAME='null'  /var/folders/8t/0yb5q0_x6mb2jldqq_vjn3lr0000gn/T/packer-shell885086069
+>2019/08/28 15:32:35 packer: 2019/08/28 15:32:35 [INFO] (shell-local communicator): Executing local shell command [/bin/sh -c MYPASS='\<sensitive\>' PACKER_BUILDER_TYPE='null' PACKER_BUILD_NAME='null'  /var/folders/8t/0yb5q0_x6mb2jldqq_vjn3lr0000gn/T/packer-shell885086069]
