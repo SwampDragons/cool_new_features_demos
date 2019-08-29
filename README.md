@@ -254,11 +254,11 @@ post-processors: a manifest post-processor, and a shell-local post-processor.
 
 The shell-local one, if it runs, will create a file called "output.txt".
 However, a post-processor has been tagged with `"except": ["null 1"]`, and this
-step will therefore be skipped.
+step will therefore be skipped when the `"null 1"` builder is run.
 
-The manifest post-processor is tagged with the opposite: `"only": ["null 2"]` -- 
-Packer `-only` flag only apply to builders
-in order to make it easier to reason about what will be
+The manifest post-processor is tagged with the opposite: `"only": ["null 2"]` and
+therefore can only run after a builder named `null 2` -- Packer's `-only` 
+flag only apply to builders in order to make it easier to reason about what will be
 generated inside of a post-processor chain.
 
 Inside the project root, run
