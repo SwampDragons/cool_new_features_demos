@@ -14,7 +14,7 @@
 	"post-processors": [
 		{
 			"type": "shell-local",
-			"inline": ["echo this one was skipped > skipped.txt"],
+			"inline": ["echo this can only run after null 1 > output.txt"],
 			"only": ["null 1"]
 		},
 		{
