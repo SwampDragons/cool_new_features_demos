@@ -252,13 +252,13 @@ recently added the ability to skip post-processors as well.
 The Packer template test_except_for_postprocesors.json contains two
 post-processors: a manifest post-processor, and a shell-local post-processor.
 
-The shell-local one, if it runs, will create a file called "skipped.txt".
-However, the post-processor has been tagged with `"except": ["null 1"]`, and this
+The shell-local one, if it runs, will create a file called "output.txt".
+However, a post-processor has been tagged with `"except": ["null 1"]`, and this
 step will therefore be skipped.
 
-The manifest one is tagged with the opposite: `"only": ["null 2"]` -- you'd think that
-this means it will be skipped, but Packer ignores "only" flags for
-post-processors in order to make it easier to reason about what will be
+The manifest post-processor is tagged with the opposite: `"only": ["null 2"]` -- 
+Packer `-only` flag only apply to builders
+in order to make it easier to reason about what will be
 generated inside of a post-processor chain.
 
 Inside the project root, run
@@ -266,7 +266,7 @@ Inside the project root, run
 `packer build -only="null 2" test_except_for_postprocesors.json`
 
 When it has completed, you'll notice that the build has created a
-packer-manifest.json file, but not a "skipped.txt" file.
+packer-manifest.json file, but not an "output.txt" file.
 
 ## Interpolating variables within the "variables" template section
 
