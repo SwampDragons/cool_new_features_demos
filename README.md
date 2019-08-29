@@ -190,7 +190,7 @@ reaches out to to realize that Vault has indeed generated credentials for us
 on-the-fly.
 
 
-## Consul Integration
+## Consul KV store Integration
 
 We're going to make use of a consul dev server in order to demonstrate the
 consul integration. To launch it, call
