@@ -27,7 +27,7 @@ you all the time you need to navigate to investigate your build environment.
 The packer console command allows you to experiment with Packer variable interpolations. You may access variables in the Packer config you called the console with, or provide variables when you call console using the -var or -var-file command line options.
 
 ```
-$ packer console console -var foo=fee tpl.json
+$ packer console console -var foo=fee test_user_var_interpolation.json
 > {{ user `foo` }}-{{ user `bar` }}
 fee-bananas-fee
 ```
