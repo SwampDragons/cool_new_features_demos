@@ -11,6 +11,7 @@
       "inline": "echo hi"
     },
     {
+      "disable": true,
       "type": "breakpoint",
       "note": "this is a breakpoint"
     },

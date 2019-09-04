@@ -1,6 +1,6 @@
 {
     "variables": {
-
+        "foo": "apples",
         "bar": "bananas-{{user `foo`}}",
         "baz": "oranges-{{user `bar`}}"
     },
