@@ -1,23 +1,36 @@
 # Packer vagrant integration
 
-Packer and Vagrant are neatly integrated.
+Packer has a somewhat new Vagrant builder which allows users to build from
+already-existing vagrant boxes, and export new vagrant boxes from those boxes.
 
-You can now start a packer build file from :
+The builder is still fairly new, so expect a few warts until we sort out all the
+possible use cases.  Currently, you can build boxes using a variety of sourcing
+methods:
 
-* A vagrant global id (ie: `a3559ec`):
+First, try to build from a known vagrant box on Vagrant Cloud
+(ie: `hashicorp/precise64`):
 
-  try it with `packer build test_global_id.json`
+`packer build vagrant_builder_from_precise64.json`
 
-* A vagrant box (ie: `./precisebox/package.box`):
+Building from this template will pull down a Vagrant box and then save it to a box named
+`/precisebox/package.box` in your current working directory.
 
-  try it with `packer build test_vagrant_from_box.json`
+Once you have that box built, you should be able to run
+`packer build test_vagrant_from_box.json`, which will open up
+`precisebox/package.box`, modify it, and then save it to a new output box,
+`testydir/package.box`
 
-* A runnin vagrant box ( using ssh ):
+You can also build from a vagrant global ID.  Use `vagrant global-status` to
+list the available IDs, then put that ID into the `test_global_id.json` file.
 
-  try it with `packer build test_vagrant_from_opened_box.json` ( you have to have a running box ).
+For example, `"global_id": "a3559ec"`.  Then run the build using
 
-* A known vagrant build (ie: `hashicorp/precise64`):
+`packer build test_global_id.json`
 
+You can also use Vagrant to build from a box that has already been opened and
+installed on your system, using the source name of the box. For example,
 
-  try it with `packer build vagrant_builder_from_precise64.json`
-  
+Try it with `packer build test_vagrant_from_opened_box.json`, where the
+source_path is `"source_path": "testy-packer",`, which we previously created in
+the test_vagrant_from_box.json build.
+
