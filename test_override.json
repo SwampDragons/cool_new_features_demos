@@ -1,0 +1,29 @@
+{
+	"variables": {
+		"foo": "abc",
+		"bar": "xyz"
+	},
+	"builders": [
+		{
+			"type": "null",
+			"communicator": "none",
+			"name": "Build One"
+		},
+		{
+			"type": "null",
+			"communicator": "none",
+			"name": "Build Two"
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell-local",
+			"inline": "echo {{user `foo`}}",
+			 "override": {
+    			"Build Two": {
+      				"inline": "echo {{user `bar`}}"
+    			}
+    		}
+		}
+	]
+}

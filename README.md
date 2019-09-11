@@ -24,7 +24,10 @@ you all the time you need to navigate to investigate your build environment.
 
 ## Console
 
-The packer console command allows you to experiment with Packer variable interpolations. You may access variables in the Packer config you called the console with, or provide variables when you call console using the -var or -var-file command line options.
+The packer console command allows you to experiment with Packer variable
+interpolations. You may access variables in the Packer config you called the
+console with, or provide variables when you call console using the -var or
+-var-file command line options.
 
 ```
 $ packer console -var foo=fee test_user_var_interpolation.json
@@ -32,8 +35,8 @@ $ packer console -var foo=fee test_user_var_interpolation.json
 fee-bananas-fee
 ```
 
-The full list of options that the console command will accept is visible in the help output, which can be seen via packer console -h.
-
+The full list of options that the console command will accept is visible in the
+help output, which can be seen via packer console -h.
 
 
 ## Vault Integrations
@@ -271,7 +274,7 @@ However, a post-processor has been tagged with `"except": ["null 1"]`, and this
 step will therefore be skipped when the `"null 1"` builder is run.
 
 The manifest post-processor is tagged with the opposite: `"only": ["null 2"]` and
-therefore can only run after a builder named `null 2` -- Packer's `-only` 
+therefore can only run after a builder named `null 2` -- Packer's `-only`
 flag only apply to builders in order to make it easier to reason about what will be
 generated inside of a post-processor chain.
 
@@ -338,4 +341,26 @@ perform conditional logic inside of the template engine, potentially changing
 the file that a particular provisioner references based on a build name?
 
 Take a look at the inline script inside of `test_template_engine_hacks.json`
-for an example of this conditional logic.
+for an example of this conditional logic.  If you run
+
+`packer build test_template_engine_hacks.json` as-is, the shell-local
+provisioner will print the word "foo" to the terminal. If you open
+test_template_engine_hacks.json and change `"name": "AWESOME-POSSUM",` to a name
+that does not start with "AWESOME-", for example, `"name": "SAD-PANDA",`,
+when you rerun the build the shell-local provisioner will instead print the word
+"bar" to the terminal.
+
+## Build-Specific Variable Overrides
+
+Build-specific overrides have been a part of Packer for a long time, but are an
+advanced feature that many users may not have had a chance to discover before.
+Instead of using template engine hacks to perform build overrides, you can
+do so right inside of the provisioner.
+
+If you call `packer_test_override`, you'll be able to see how a single
+provisioner can be modified on a per-build basis to override a particular
+inline call and print a different variable to the command line, depending on the
+build name.  These overrides aren't quite as flexible as the golang hack
+outlined above becuase you must override on a per-name basis rather than being
+able to split on names, but it is a powerful tool if you have specific
+modifications you need to make.
