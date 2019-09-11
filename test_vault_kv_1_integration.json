@@ -13,6 +13,6 @@
       }
     ],
     "variables": {
-        "VAULT_SECRET": "{{ vault `/secret/data/hello` `foo`}}"
+        "VAULT_SECRET": "{{ vault `/kv/my-secret` `my-value`}}"
     }
 }
