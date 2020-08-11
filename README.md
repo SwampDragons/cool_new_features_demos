@@ -92,7 +92,7 @@ vault secrets enable kv
 vault kv put secret/hello foo=world
 
 # Run the Packer build
-packer build test_vault_kv_1_integration.json
+packer build test_vault_kv_2_integration.json
 ```
 
 You should see the line
@@ -113,11 +113,11 @@ export VAULT_TOKEN=$THE_ROOT_TOKEN_YOU_COPIED_EARLIER
 export VAULT_ADDR='http://127.0.0.1:8200'
 
 # Set up the KV engine for the test
-vault secrets enable -version=1 kv
-vault kv put kv/my-secret my-value=s3cr3t
+vault secrets enable -path=kv1 -version=1 kv
+vault kv put kv1/my-secret my-value=s3cr3t
 
 # Run the Packer build
-packer build test_vault_kv_2_integration.json
+packer build test_vault_kv_1_integration.json
 ```
 
 You should see the line:
